@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portrait Sessions | Haitian Hub Studio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <style>
+    /* --- CINEMA-GRADE RESET & BASE --- */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:#000;color:#fff;overflow-x:hidden}
+
+    /* --- VARIABLES --- */
+    :root{
+      --c-red:#e50914;
+      --c-red-dark:#b20710;
+      --c-black:#0a0a0a;
+      --c-gray:#141414;
+      --c-light:#e5e5e5;
+      --c-gold:#f5c518;
+      --ease:cubic-bezier(.25,.46,.45,.94)
+    }
+
+    /* --- TYPOGRAPHY --- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    .font-bebas{font-family:'Bebas Neue',cursive;letter-spacing:.05em}
+    .font-inter{font-family:'Inter',sans-serif}
+
+    /* --- UTILITIES --- */
+    .container{width:90%;max-width:1400px;margin:auto}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:.9rem 2.2rem;font-weight:600;border-radius:4px;
+      transition:all .3s var(--ease);cursor:pointer;border:none;font-size:.95rem
+    }
+    .btn-red{background:var(--c-red);color:#fff}
+    .btn-red:hover{background:var(--c-red-dark);transform:translateY(-2px)}
+    .btn-outline{border:1px solid var(--c-light);color:var(--c-light);background:transparent}
+    .btn-outline:hover{background:var(--c-light);color:var(--c-black)}
+    /* --- NAV --- */
+    nav{position:fixed;top:0;left:0;width:100%;z-index:50;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
+    .logo{font-size:1.4rem;font-weight:900;color:var(--c-red);letter-spacing:-.5px;white-space:nowrap}
+    .nav-links{display:flex;gap:2.2rem;align-items:center}
+    .nav-links a{color:var(--c-light);font-weight:500;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--c-red);transition:width .3s var(--ease)}
+    .nav-links a:hover::after{width:100%}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor-pointer}
+    .hamburger span{width:28px;height:2px;background:#fff;transition:.3s var(--ease)}
+    @media(max-width:768px){
+      .nav-inner{justify-content:space-between}
+      .nav-links{position:fixed;top:0;right:0;height:100vh;width:70%;max-width:280px;background:#000;display:flex;flex-direction:column;align-items:flex-start;padding:6rem 2rem 2rem;gap:1.8rem;transform:translateX(100%);transition:transform .4s var(--ease)}
+      .nav-links.open{transform:translateX(0)}
+      .hamburger{display:flex}
+    }
+    @media(max-width:480px){
+      .logo{font-size:1.2rem}
+    }
+    /* --- HERO --- */
+    .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:#000;overflow:hidden}
+    .hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('http://static.photos/people/1920x1080/42') center/cover no-repeat;opacity:.18;filter:blur(2px)}
+    .hero-grid{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+    .hero::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,rgba(229,9,20,.15) 0%,rgba(10,10,10,.7) 40%,rgba(10,10,10,.9) 100%);z-index:1}
+    .hero-content{position:relative;z-index:2;text-align:center;max-width:1000px;padding:0 1rem}
+    .hero h1{font-size:clamp(2rem,10vw,8rem);font-weight:900;line-height:.9;text-transform:uppercase}
+    .hero h1 span:nth-child(1){color:#fff}
+    .hero h1 span:nth-child(2){color:var(--c-red)}
+    .hero p{font-size:clamp(.9rem,2vw,1.4rem);color:var(--c-light);margin:1.2rem auto 2.5rem;max-width:680px;padding:0 .5rem}
+    .hero-buttons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+    .hero-stats{display:flex;gap:1.5rem;justify-content:center;margin-top:2.5rem;font-size:.8rem;color:var(--c-light);flex-wrap:wrap}
+    .hero-stats div{text-align:center;min-width:70px}
+    .hero-stats strong{display:block;font-size:1.4rem;color:#fff;font-weight:700}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:.35rem 1rem .35rem .35rem;font-size:.8rem;font-weight:500;color:#e5e5e5;margin-bottom:1.5rem}
+    .hero-badge span:first-child{width:8px;height:8px;background:#e50914;border-radius:50%;display:inline-block;box-shadow:0 0 10px #e50914}
+    .hero h1{position:relative;display:inline-block}
+    .hero h1::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:var(--c-red);border-radius:2px}
+    .hero-buttons .btn{position:relative;overflow:hidden;z-index:1;font-size:.9rem;padding:.7rem 1.5rem}
+    .hero-buttons .btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s;z-index:-1}
+    .hero-buttons .btn:hover::before{width:300px;height:300px}
+    .hero-stats strong{color:var(--c-gold)}
+    @media(max-width:480px){
+      .hero-buttons{flex-direction:column;align-items:center}
+      .hero-buttons .btn{width:100%;max-width:260px}
+    }
+    /* --- SECTIONS --- */
+    section{padding:4rem 0}
+    .section-title{font-size:clamp(2rem,5vw,3rem);font-weight:900;margin-bottom:2.5rem;text-align:center;text-transform:uppercase;letter-spacing:-1px}
+    .section-title span{color:var(--c-red)}
+    @media(min-width:768px){
+      section{padding:6rem 0}
+      .section-title{margin-bottom:3.5rem}
+    }
+    /* --- GALLERY --- */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.75rem}
+    .gallery a{overflow:hidden;border-radius:6px;position:relative;display:block;background:#000}
+    .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease),opacity .5s var(--ease)}
+    .gallery a:hover img{transform:scale(1.08);opacity:.75}
+    .gallery a::after{content:'＋';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);font-size:2rem;color:#fff;opacity:0;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+    .gallery a:hover::after{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    @media(min-width:768px){
+      .gallery{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+    }
+    /* --- PRICING --- */
+    .pricing{display:grid;grid-template-columns:1fr;gap:1.5rem}
+    .price-card{background:var(--c-gray);border-radius:6px;padding:1.5rem;position:relative;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+    .price-card.featured{border:2px solid var(--c-gold);transform:scale(1.02)}
+    .price-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(245,197,24,.15)}
+    .price-card h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem}
+    .price-card .price{font-size:2.2rem;font-weight:900;color:var(--c-gold);margin:.5rem 0}
+    .price-card ul{list-style:none;margin:1.5rem 0 2rem;font-size:.9rem;color:var(--c-light)}
+    .price-card ul li{margin:.4rem 0;display:flex;align-items:center;gap:.6rem}
+    .price-card ul li::before{content:'✓';color:var(--c-gold);font-weight:700}
+    @media(min-width:768px){
+      .pricing{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+      .price-card{padding:2.5rem 2rem}
+      .price-card h3{font-size:1.4rem}
+      .price-card .price{font-size:2.8rem}
+      .price-card.featured{transform:scale(1.05)}
+    }
+    /* --- BOOKING --- */
+    .booking-form{display:grid;grid-template-columns:1fr;gap:1rem}
+    .booking-form input,.booking-form select,.booking-form textarea{width:100%;padding:.9rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:#fff;font-size:.95rem;transition:border-color .3s var(--ease)}
+    .booking-form input:focus,.booking-form select:focus,.booking-form textarea:focus{border-color:var(--c-red);outline:none}
+    .booking-form textarea{resize:vertical;min-height:120px}
+    .booking-form .full{grid-column:1/-1}
+    @media(min-width:600px){
+      .booking-form{grid-template-columns:1fr 1fr;gap:1.2rem}
+      .booking-form textarea{min-height:140px}
+    }
+    /* --- ANIMATIONS --- */
+    .fade-up{opacity:0;transform:translateY(30px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+    .fade-up.visible{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body class="bg-deep-black">
+
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="logo">Haitian Hub Studio</a>
+        <div class="nav-links" id="navLinks">
+          <a href="index.html">Home</a>
+          <a href="portrait.html" class="active">Portrait</a>
+          <a href="christmas.html">Christmas</a>
+          <a href="index.html#booking">Book</a>
+        </div>
+        <div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="container">
+      <div class="hero-content fade-up">
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1 mb-6">
+          <span class="w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
+          <span class="text-sm text-neutral-200">Now Booking Portrait Sessions</span>
+        </div>
+        <h1 class="font-bebas">
+          <span>Frame Your</span>
+          <span>Best Self</span>
+        </h1>
+        <p>Port-au-Prince’s premier cinematic portrait experience—where every shot feels like a magazine cover.</p>
+        <div class="hero-buttons">
+          <a href="#booking" class="btn btn-red">Book Portrait Session</a>
+          <a href="#gallery" class="btn btn-outline">View Gallery</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>Studio</strong>Sets</div>
+          <div><strong>Environmental</strong>Locations</div>
+          <div><strong>Same-Day</strong>Teasers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Shot on <span>Hub</span></h2>
+      <div class="gallery">
+        <a href="http://static.photos/people/1024x576/7"><img src="http://static.photos/people/1024x576/7" alt="Portrait 1"></a>
+        <a href="http://static.photos/people/1024x576/8"><img src="http://static.photos/people/1024x576/8" alt="Portrait 2"></a>
+        <a href="http://static.photos/people/1024x576/9"><img src="http://static.photos/people/1024x576/9" alt="Portrait 3"></a>
+        <a href="http://static.photos/people/1024x576/10"><img src="http://static.photos/people/1024x576/10" alt="Portrait 4"></a>
+        <a href="http://static.photos/people/1024x576/11"><img src="http://static.photos/people/1024x576/11" alt="Portrait 5"></a>
+        <a href="http://static.photos/people/1024x576/12"><img src="http://static.photos/people/1024x576/12" alt="Portrait 6"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="fade-up bg-neutral-900">
+    <div class="container">
+      <div class="grid md:grid-cols-3 gap-12 text-center">
+        <div class="service-card">
+          <div class="service-icon"><i data-feather="camera"></i></div>
+          <h3 class="font-bebas text-2xl mb-3">Cinema Lighting</h3>
+          <p class="text-neutral-300">Aputure cinema lights & silk diffusion create flawless skin tones and dramatic shadows.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i data-feather="image"></i></div>
+          <h3 class="font-bebas text-2xl mb-3">Magazine Retouching</h3>
+          <p class="text-neutral-300">Professional skin retouching, color grading, and artistic effects that elevate your portraits.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i data-feather="map-pin"></i></div>
+          <h3 class="font-bebas text-2xl mb-3">Multiple Locations</h3>
+          <p class="text-neutral-300">Choose from our cinematic studio setups or environmental locations around Port-au-Prince.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Portrait <span>Packages</span></h2>
+      <div class="pricing">
+        <div class="price-card">
+          <h3>HEADSHOT</h3>
+          <div class="price">$199</div>
+          <ul>
+            <li>30-min shoot</li>
+            <li>5 final retouched images</li>
+            <li>1 studio setup</li>
+            <li>Professional lighting</li>
+            <li>Same-day delivery</li>
+          </ul>
+          <a href="#booking" class="btn btn-outline w-full">Book Headshot</a>
+        </div>
+        <div class="price-card featured">
+          <h3>PORTRAIT ESSENTIAL</h3>
+          <div class="price">$399</div>
+          <ul>
+            <li>90-min shoot</li>
+            <li>15 final retouched images</li>
+            <li>2 studio setups</li>
+            <li>Professional lighting</li>
+            <li>Online gallery</li>
+            <li>8x10 fine-art print</li>
+          </ul>
+          <a href="#booking" class="btn btn-red w-full">Book Essential</a>
+        </div>
+        <div class="price-card">
+          <h3>PORTRAIT PREMIUM</h3>
+          <div class="price">$699</div>
+          <ul>
+            <li>3-hour shoot</li>
+            <li>30 final retouched images</li>
+            <li>Multiple setups</li>
+            <li>Studio + environmental</li>
+            <li>Online gallery</li>
+            <li>11x14 fine-art print</li>
+            <li>Digital backup</li>
+          </ul>
+          <a href="#booking" class="btn btn-outline w-full">Book Premium</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section id="booking" class="fade-up bg-neutral-900">
+    <div class="container text-center">
+      <h2 class="font-bebas text-5xl mb-4">Reserve Your Session</h2>
+      <p class="text-neutral-300 mb-10 max-w-2xl mx-auto">Ready to capture your best self? Book your portrait session today and experience the Haitian Hub difference.</p>
+      <a href="index.html#booking" class="btn btn-red text-lg">
+        <i data-feather="calendar"></i> Book Portrait Session
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-neutral-950 border-t border-neutral-800 py-10 text-center text-neutral-400 text-sm">
+    © <span id="year"></span> Haitian Hub Studio – #23 Rue Lamarre, Port-au-Prince
+  </footer>
+
+  <script>
+    /* --- Mobile Nav --- */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.onclick = () => navLinks.classList.toggle('open');
+
+    /* --- Scroll Reveal --- */
+    const io = new IntersectionObserver((es)=>es.forEach(e=>e.target.classList.toggle('visible',e.isIntersecting)),{threshold:.15});
+    document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+    /* --- Gallery Lightbox --- */
+    document.querySelectorAll('.gallery a').forEach(a=>{
+      a.onclick=(e)=>{
+        e.preventDefault();
+        const lightbox = document.createElement('div');
+        lightbox.className='fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer';
+        lightbox.innerHTML=`<img src="${a.href}" class="max-w-[90vw] max-h-[90vh] rounded">`;
+        lightbox.onclick=()=>lightbox.remove();
+        document.body.appendChild(lightbox);
+      };
+    });
+    feather.replace();
+    document.getElementById('year').textContent=new Date().getFullYear();
+  </script>
+</body>
+</html>
