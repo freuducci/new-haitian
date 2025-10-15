@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haitian Hub Studio | Frame the Culture. Capture the Vibe.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs/lib/anime.iife.min.js"></script>
+  <style>
+    /* --- CINEMA-GRADE RESET & BASE --- */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:#000;color:#fff;overflow-x:hidden}
+
+    /* --- VARIABLES --- */
+    :root{
+      --c-red:#e50914;
+      --c-red-dark:#b20710;
+      --c-black:#0a0a0a;
+      --c-gray:#141414;
+      --c-light:#e5e5e5;
+      --c-gold:#f5c518;
+      --ease:cubic-bezier(.25,.46,.45,.94)
+    }
+
+    /* --- TYPOGRAPHY --- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    .font-bebas{font-family:'Bebas Neue',cursive;letter-spacing:.05em}
+    .font-inter{font-family:'Inter',sans-serif}
+
+    /* --- UTILITIES --- */
+    .container{width:90%;max-width:1400px;margin:auto}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:.9rem 2.2rem;font-weight:600;border-radius:4px;
+      transition:all .3s var(--ease);cursor:pointer;border:none;font-size:.95rem
+    }
+    .btn-red{background:var(--c-red);color:#fff}
+    .btn-red:hover{background:var(--c-red-dark);transform:translateY(-2px)}
+    .btn-outline{border:1px solid var(--c-light);color:var(--c-light);background:transparent}
+    .btn-outline:hover{background:var(--c-light);color:var(--c-black)}
+  /* --- NAV --- */
+    nav{position:fixed;top:0;left:0;width:100%;z-index:50;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav-inner{display:flex;align-items:center;justify-content:center;padding:1rem 0}
+.logo{font-size:1.6rem;font-weight:900;color:var(--c-red);letter-spacing:-.5px}
+    .nav-links{display:flex;gap:2.2rem}
+    .nav-links a{color:var(--c-light);font-weight:500;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--c-red);transition:width .3s var(--ease)}
+    .nav-links a:hover::after{width:100%}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+    .hamburger span{width:28px;height:2px;background:#fff;transition:.3s var(--ease)}
+    @media(max-width:768px){
+      .hamburger{display:flex}
+      .nav-links{position:fixed;top:0;right:0;height:100vh;width:70%;max-width:280px;background:#000;display:flex;flex-direction:column;align-items:flex-start;padding:6rem 2rem 2rem;gap:1.8rem;transform:translateX(100%);transition:transform .4s var(--ease)}
+      .nav-links.open{transform:translateX(0)}
+    }
+  /* --- HERO --- */
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:#000;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('http://static.photos/studio/1920x1080/42') center/cover no-repeat;opacity:.18;filter:blur(2px)}
+  .hero-grid{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .hero::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,rgba(229,9,20,.15) 0%,rgba(10,10,10,.7) 40%,rgba(10,10,10,.9) 100%);z-index:1}
+  .hero-content{position:relative;z-index:2;text-align:center;max-width:1000px;padding:0 1rem}
+  .hero h1{font-size:clamp(3.5rem,10vw,8rem);font-weight:900;line-height:.9;text-transform:uppercase}
+  .hero h1 span:nth-child(1){color:#fff}
+  .hero h1 span:nth-child(2){color:var(--c-red)}
+  .hero p{font-size:clamp(1rem,2vw,1.4rem);color:var(--c-light);margin:1.2rem auto 2.5rem;max-width:680px}
+  .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+  .hero-stats{display:flex;gap:2.5rem;justify-content:center;margin-top:3rem;font-size:.9rem;color:var(--c-light)}
+  .hero-stats div{text-align:center}
+  .hero-stats strong{display:block;font-size:1.6rem;color:#fff;font-weight:700}
+  .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:.35rem 1rem .35rem .35rem;font-size:.8rem;font-weight:500;color:#e5e5e5;margin-bottom:1.5rem}
+  .hero-badge span:first-child{width:8px;height:8px;background:#e50914;border-radius:50%;display:inline-block;box-shadow:0 0 10px #e50914}
+  .hero h1{position:relative;display:inline-block}
+  .hero h1::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:var(--c-red);border-radius:2px}
+  .hero-buttons .btn{position:relative;overflow:hidden;z-index:1}
+  .hero-buttons .btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s;z-index:-1}
+  .hero-buttons .btn:hover::before{width:300px;height:300px}
+  .hero-stats strong{color:var(--c-gold)}
+.hero-content{position:relative;z-index:2;text-align:center;max-width:1000px;padding:0 1rem}
+    .hero h1{font-size:clamp(3.5rem,10vw,8rem);font-weight:900;line-height:.9;text-transform:uppercase}
+    .hero h1 span:nth-child(1){color:#fff}
+    .hero h1 span:nth-child(2){color:var(--c-red)}
+    .hero p{font-size:clamp(1rem,2vw,1.4rem);color:var(--c-light);margin:1.2rem auto 2.5rem;max-width:680px}
+    .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+    .hero-stats{display:flex;gap:2.5rem;justify-content:center;margin-top:3rem;font-size:.9rem;color:var(--c-light)}
+    .hero-stats div{text-align:center}
+    .hero-stats strong{display:block;font-size:1.6rem;color:#fff;font-weight:700}
+  /* --- SECTIONS --- */
+    section{padding:6rem 0}
+    .section-title{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:900;margin-bottom:3.5rem;text-align:center;text-transform:uppercase;letter-spacing:-1px}
+    .section-title span{color:var(--c-red)}
+
+    /* --- ABOUT (section 2) NEW STYLE --- */
+    #about{background:linear-gradient(135deg,var(--c-black) 0%,#0d0d0d 100%);position:relative}
+    #about::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('http://static.photos/textures/1920x1080/7') center/cover no-repeat;opacity:.04;pointer-events:none}
+    #about .grid{gap:4rem;align-items:center}
+    #about img{border-radius:12px;box-shadow:0 25px 50px -12px rgba(229,9,20,.25);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+    #about img:hover{transform:scale(1.02) rotate(-1deg);box-shadow:0 30px 60px -12px rgba(229,9,20,.35)}
+    #about .relative .absolute{-z-10;animation:pulse 4s infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.05);opacity:.6}}
+    #about p{position:relative;padding-left:1rem;border-left:2px solid var(--c-red);margin-bottom:1.5rem;font-size:1.05rem;color:#e5e5e5;line-height:1.8}
+    #about p::before{content:'“';position:absolute;left:-.6rem;top:-.4rem;font-size:2rem;color:var(--c-red);opacity:.5}
+    #about .btn-outline{margin-top:2rem;border-color:var(--c-red);color:var(--c-red)}
+    #about .btn-outline:hover{background:var(--c-red);color:#fff}
+/* --- GALLERY --- */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+    .gallery a{overflow:hidden;border-radius:6px;position:relative;display:block;background:#000}
+    .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease),opacity .5s var(--ease)}
+    .gallery a:hover img{transform:scale(1.08);opacity:.75}
+    .gallery a::after{content:'＋';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);font-size:2rem;color:#fff;opacity:0;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+    .gallery a:hover::after{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+    /* --- SERVICES --- */
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem}
+    .service-card{background:var(--c-gray);border-radius:6px;padding:2.2rem;position:relative;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+    .service-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(229,9,20,.25)}
+    .service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--c-red);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+    .service-card:hover::before{transform:scaleX(1)}
+    .service-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--c-red);border-radius:50%;margin-bottom:1.2rem}
+    .service-icon svg{width:22px;height:22px;color:#fff}
+
+    /* --- PRICING --- */
+    .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+    .price-card{background:var(--c-gray);border-radius:6px;padding:2.5rem 2rem;position:relative;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+    .price-card.featured{border:2px solid var(--c-gold);transform:scale(1.05)}
+    .price-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(245,197,24,.15)}
+    .price-card h3{font-size:1.4rem;font-weight:700;margin-bottom:.5rem}
+    .price-card .price{font-size:2.8rem;font-weight:900;color:var(--c-gold);margin:.5rem 0}
+    .price-card ul{list-style:none;margin:1.5rem 0 2rem;font-size:.95rem;color:var(--c-light)}
+    .price-card ul li{margin:.4rem 0;display:flex;align-items:center;gap:.6rem}
+    .price-card ul li::before{content:'✓';color:var(--c-gold);font-weight:700}
+
+    /* --- BOOKING --- */
+    .booking-form{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+    .booking-form input,.booking-form select,.booking-form textarea{width:100%;padding:.9rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:#fff;font-size:.95rem;transition:border-color .3s var(--ease)}
+    .booking-form input:focus,.booking-form select:focus,.booking-form textarea:focus{border-color:var(--c-red);outline:none}
+    .booking-form textarea{resize:vertical;min-height:140px}
+    .booking-form .full{grid-column:1/-1}
+    @media(max-width:600px){.booking-form{grid-template-columns:1fr}}
+
+    /* --- TESTIMONIALS --- */
+    .testimonials{max-width:900px;margin:auto;position:relative}
+    .testimonial-card{background:var(--c-gray);padding:3rem 2rem;border-radius:6px;text-align:center;opacity:0;position:absolute;width:100%;transition:opacity .6s var(--ease)}
+    .testimonial-card.active{opacity:1;position:relative}
+    .testimonial-card p{font-style:italic;margin-bottom:1.5rem;font-size:1.1rem;color:var(--c-light)}
+    .testimonial-card h4{font-weight:700;color:#fff}
+    .testimonial-dots{display:flex;gap:.6rem;justify-content:center;margin-top:2rem}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .3s var(--ease)}
+    .dot.active{background:var(--c-red)}
+
+    /* --- CONTACT --- */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+    .contact-info{display:flex;flex-direction:column;gap:2rem}
+    .contact-item{display:flex;gap:1rem}
+    .contact-icon{width:44px;height:44px;background:var(--c-red);border-radius:50%;display:flex;align-items:center;justify-center;flex-shrink:0}
+    .contact-icon svg{width:20px;height:20px;color:#fff}
+    .map-container iframe{width:100%;height:400px;border-radius:6px;border:0}
+    @media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+    /* --- FOOTER --- */
+    footer{text-align:center;padding:2.5rem 0;background:var(--c-black);color:var(--c-light);font-size:.9rem}
+
+    /* --- ANIMATIONS --- */
+    .fade-up{opacity:0;transform:translateY(30px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+    .fade-up.visible{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body class="bg-deep-black">
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="logo">Haitian Hub Studio</div>
+        <div class="nav-links" id="navLinks">
+          <a href="#about">About</a>
+          <a href="#specialties">Specialties</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#services">Services</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#booking">Book</a>
+          <a href="#contact">Contact</a>
+        </div>
+<div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- HERO -->
+  <section class="hero">
+<div class="hero-grid"></div>
+    <div class="container">
+      <div class="hero-content fade-up">
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1 mb-6">
+          <span class="w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
+          <span class="text-sm text-neutral-200">Now Booking 2024 Sessions</span>
+        </div>
+        <h1 class="font-bebas">
+          <span>Frame the Culture.</span>
+          <span>Capture the Vibe.</span>
+        </h1>
+<p>Experience Port-au-Prince’s premier cinematic photo studio—where every shot feels like a motion-picture still.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-red">Book Your Session</button>
+          <button class="btn btn-outline">Watch Reel</button>
+        </div>
+        <div class="hero-stats">
+          <div><strong>500+</strong>Sessions</div>
+          <div><strong>50+</strong>Events</div>
+          <div><strong>5★</strong>Reviews</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ABOUT -->
+  <section id="about" class="fade-up">
+    <div class="container">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="section-title font-bebas">Who We <span>Are</span></h2>
+<p class="text-neutral-300 mb-6">Haitian Hub Studio is Port-au-Prince’s first cinema-grade creative space. We merge high-fashion aesthetics with Haitian soul, producing campaign-level imagery for brands, artists, and couples who demand the extraordinary.</p>
+          <p class="text-neutral-300">Our crew—directors, gaffers, colorists—treat every click like a frame in a feature film. If you’re ready to direct your own story, welcome to the hub.</p>
+        </div>
+        <div class="relative">
+          <img src="http://static.photos/people/1024x576/123" alt="Studio Team" class="rounded-md shadow-2xl w-full">
+          <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-red-600 rounded-md -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECIALTIES / SERVICES WE OFFER -->
+  <section id="specialties" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Specialties We <span>Offer</span></h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/holiday/640x360/25" alt="Christmas" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Christmas</h3>
+          <p class="text-neutral-300 text-sm">Festive portraits & holiday cards that sparkle.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/wedding/640x360/18" alt="Wedding" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Wedding</h3>
+          <p class="text-neutral-300 text-sm">Cinematic love stories from engagement to altar.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/people/640x360/42" alt="Portrait" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Portrait</h3>
+          <p class="text-neutral-300 text-sm">Studio & environmental portraits with star quality.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/event/640x360/7" alt="Events" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Events</h3>
+          <p class="text-neutral-300 text-sm">Capture every moment—corporate, cultural, private.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/marketing/640x360/33" alt="Marketing" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Marketing</h3>
+          <p class="text-neutral-300 text-sm">Campaign imagery that sells your brand’s story.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/studio/640x360/11" alt="Studio Rental" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Studio Rental</h3>
+          <p class="text-neutral-300 text-sm">Fully-equipped space for your own creative crew.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- GALLERY -->
+  <section id="gallery" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Shot on <span>Hub</span></h2>
+<div class="gallery">
+        <a href="http://static.photos/studio/1024x576/1"><img src="http://static.photos/studio/1024x576/1" alt="Frame 1"></a>
+        <a href="http://static.photos/people/1024x576/2"><img src="http://static.photos/people/1024x576/2" alt="Frame 2"></a>
+        <a href="http://static.photos/studio/1024x576/3"><img src="http://static.photos/studio/1024x576/3" alt="Frame 3"></a>
+        <a href="http://static.photos/people/1024x576/4"><img src="http://static.photos/people/1024x576/4" alt="Frame 4"></a>
+        <a href="http://static.photos/studio/1024x576/5"><img src="http://static.photos/studio/1024x576/5" alt="Frame 5"></a>
+        <a href="http://static.photos/people/1024x576/6"><img src="http://static.photos/people/1024x576/6" alt="Frame 6"></a>
+      </div>
+    </div>
+  </section>
+  <!-- SERVICES -->
+  <section id="services" class="fade-up">
+    <div class="container">
+      <h2 class="section-title font-bebas">Our <span>Services</span></h2>
+<div class="services">
+        <div class="service-card">
+          <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>
+          <h3>Cinematic Studio</h3>
+          <p class="text-neutral-300">ARRI-grade lights, 6K BlackMagic rigs, and wireless tethering for motion-picture stills.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></div>
+          <h3>Creative Direction</h3>
+          <p class="text-neutral-300">From mood-board to final color-grade, we script your visual narrative shot by shot.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div>
+          <h3>Post-Production</h3>
+          <p class="text-neutral-300">DaVinci Resolve color suite for cinematic skin-tones and theatrical contrast.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+          <h3>On-Set Crew</h3>
+          <p class="text-neutral-300">Gaffers, stylists, and art-directors included for campaign-level productions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- PRICING -->
+  <section id="pricing" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Production <span>Packages</span></h2>
+<div class="pricing">
+        <div class="price-card">
+          <h3>Indie</h3>
+          <div class="price">$399</div>
+          <ul>
+            <li>1 hr studio rental</li>
+            <li>20 cinematic edits</li>
+            <li>1 look/1 backdrop</li>
+            <li>Online gallery</li>
+          </ul>
+          <button class="btn btn-outline w-full">Select</button>
+        </div>
+        <div class="price-card featured">
+          <h3>Feature</h3>
+          <div class="price">$799</div>
+          <ul>
+            <li>3 hr production</li>
+            <li>60 final stills</li>
+            <li>2 looks + set changes</li>
+            <li>Color-graded gallery</li>
+            <li>MUA & stylist included</li>
+          </ul>
+          <button class="btn btn-red w-full">Select</button>
+        </div>
+        <div class="price-card">
+          <h3>Blockbuster</h3>
+          <div class="price">$1499</div>
+          <ul>
+            <li>Full-day shoot</li>
+            <li>120+ hero images</li>
+            <li>Unlimited sets</li>
+            <li>Behind-the-scenes 4K video</li>
+            <li>Same-day teaser</li>
+          </ul>
+          <button class="btn btn-outline w-full">Select</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- BOOKING -->
+  <section id="booking" class="fade-up">
+    <div class="container">
+      <h2 class="section-title font-bebas">Lock Your <span>Date</span></h2>
+<form class="booking-form" id="bookingForm">
+        <input type="text" placeholder="First Name" required>
+        <input type="text" placeholder="Last Name" required>
+        <input type="email" placeholder="Email" required>
+        <input type="tel" placeholder="Phone" required>
+        <select required>
+          <option value="" disabled selected>Select Package</option>
+          <option>Indie – $399</option>
+          <option>Feature – $799</option>
+          <option>Blockbuster – $1499</option>
+        </select>
+        <input type="date" required>
+        <textarea class="full" placeholder="Tell us the storyline you want to create…"></textarea>
+        <button type="submit" class="btn btn-red full">Send Treatment</button>
+      </form>
+    </div>
+  </section>
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Industry <span>Reviews</span></h2>
+<div class="testimonials">
+        <div class="testimonial-card active">
+          <p>“Working with Haitian Hub felt like being on a Netflix set. The color grade they delivered made our campaign go viral overnight.”</p>
+          <h4>– Mikaela Denis, Creative Director @ Ayiti Bae</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“They turned our wedding into a movie poster. Every frame belongs in a gallery.”</p>
+          <h4>– James & Claudia Chery</h4>
+        </div>
+        <div class="testimonial-card">
+          <p>“The behind-the-scenes video alone tripled our Instagram engagement. Pure cinema.”</p>
+          <h4>– Roody Roodboy, Artist</h4>
+        </div>
+        <div class="testimonial-dots">
+          <span class="dot active" data-slide="0"></span>
+          <span class="dot" data-slide="1"></span>
+          <span class="dot" data-slide="2"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONTACT -->
+  <section id="contact" class="fade-up">
+    <div class="container">
+      <h2 class="section-title font-bebas">Call <span>Sheet</span></h2>
+<div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+            <div>
+              <h3 class="font-bold mb-1">Studio Lot</h3>
+              <p class="text-neutral-300">Route de Delmas, Port-au-Prince, HT</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></div>
+            <div>
+              <h3 class="font-bold mb-1">Production Office</h3>
+              <p class="text-neutral-300"><a href="tel:+50937191919">+509 37 19 1919</a></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
+            <div>
+              <h3 class="font-bold mb-1">Email</h3>
+              <p class="text-neutral-300">director@haitianhubstudio.com</p>
+            </div>
+          </div>
+        </div>
+        <div class="map-container">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d386950.6!2d-72.415443!3d18.594443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ebf9e5d8b8c4b7b%3A0x3f5c5e5e5e5e5e5e!2sPort-au-Prince!5e0!3m2!1sen!2sht!4v1650000000000" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FOOTER -->
+  <footer class="font-inter">
+    © <span id="year"></span> Haitian Hub Studio — Frame the Culture. Capture the Vibe.
+  </footer>
+  <script>
+    /* --- Mobile Nav --- */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.onclick = () => navLinks.classList.toggle('open');
+
+    /* --- Testimonial Carousel --- */
+    const cards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelectorAll('.dot');
+    let idx = 0;
+    function show(n){
+      cards.forEach(c=>c.classList.remove('active'));
+      dots.forEach(d=>d.classList.remove('active'));
+      cards[n].classList.add('active');
+      dots[n].classList.add('active');
+      idx = n;
+    }
+    dots.forEach((d,i)=>d.onclick=()=>show(i));
+    setInterval(()=>show((idx+1)%cards.length),5000);
+
+    /* --- Scroll Reveal --- */
+    const io = new IntersectionObserver((es)=>es.forEach(e=>e.target.classList.toggle('visible',e.isIntersecting)),{threshold:.15});
+    document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+    /* --- Form --- */
+    bookingForm.onsubmit=(e)=>{
+      e.preventDefault();
+      alert('Treatment sent! Our line producer will call you within 24 hrs.');
+      bookingForm.reset();
+    };
+
+    /* --- Gallery Lightbox --- */
+    document.querySelectorAll('.gallery a').forEach(a=>{
+      a.onclick=(e)=>{
+        e.preventDefault();
+        const lightbox = document.createElement('div');
+        lightbox.className='fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer';
+        lightbox.innerHTML=`<img src="${a.href}" class="max-w-[90vw] max-h-[90vh] rounded">`;
+        lightbox.onclick=()=>lightbox.remove();
+        document.body.appendChild(lightbox);
+      };
+    });
+
+    /* --- Year --- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
