@@ -50,15 +50,28 @@
     .nav-links a{color:var(--c-light);font-weight:500;position:relative}
     .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--c-red);transition:width .3s var(--ease)}
     .nav-links a:hover::after{width:100%}
-    .hamburger{display:none;flex-direction:column;gap:5px;cursor-pointer}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
     .hamburger span{width:28px;height:2px;background:#fff;transition:.3s var(--ease)}
+    /* --- Mobile Bottom Nav --- */
+    .mobile-bottom-nav{position:fixed;bottom:0;left:0;width:100%;background:#0a0a0a;border-top:1px solid rgba(255,255,255,.08);display:none;justify-content:space-around;padding:.6rem 0;z-index:49}
+    .mobile-bottom-nav a{display:flex;flex-direction:column;align-items:center;font-size:.65rem;color:var(--c-light);gap:4px;transition:color .2s}
+    .mobile-bottom-nav a.active,.mobile-bottom-nav a:hover{color:var(--c-red)}
+    .mobile-bottom-nav svg{width:20px;height:20px}
+    /* --- Mobile Sticky Footer Menu --- */
+.mobile-sticky-footer{position:fixed;bottom:0;left:0;width:100%;background:#0a0a0a;border-top:1px solid rgba(255,255,255,.08);display:none;justify-content:space-around;padding:.6rem 0;z-index:49}
+.mobile-sticky-footer a{display:flex;flex-direction:column;align-items:center;font-size:.6rem;color:var(--c-light);gap:3px;transition:color .2s}
+.mobile-sticky-footer a.active,.mobile-sticky-footer a:hover{color:var(--c-red)}
+.mobile-sticky-footer svg{width:18px;height:18px}
+.mobile-sticky-footer span{margin-top:2px}
     @media(max-width:768px){
       .nav-inner{justify-content:space-between}
       .nav-links{position:fixed;top:0;right:0;height:100vh;width:70%;max-width:280px;background:#000;display:flex;flex-direction:column;align-items:flex-start;padding:6rem 2rem 2rem;gap:1.8rem;transform:translateX(100%);transition:transform .4s var(--ease)}
       .nav-links.open{transform:translateX(0)}
       .hamburger{display:flex}
+      .mobile-sticky-footer{display:flex}
+      body{padding-bottom:70px}
     }
-    @media(max-width:480px){
+@media(max-width:480px){
       .logo{font-size:1.2rem}
     }
 /* --- HERO --- */
@@ -529,8 +542,16 @@
       © <span id="year"></span> Haitian Hub Studio. All rights reserved.
     </div>
   </footer>
+  <!-- Mobile Sticky Footer Menu -->
+  <div class="mobile-sticky-footer">
+    <a href="#home"><i data-feather="home"></i><span>Home</span></a>
+    <a href="#booking"><i data-feather="calendar"></i><span>Book</span></a>
+    <a href="#gallery"><i data-feather="image"></i><span>Gallery</span></a>
+    <a href="#services"><i data-feather="briefcase"></i><span>Services</span></a>
+    <a href="#contact"><i data-feather="mail"></i><span>Contact</span></a>
+  </div>
 <script>
-    /* --- Mobile Nav --- */
+/* --- Mobile Nav --- */
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
     hamburger.onclick = () => navLinks.classList.toggle('open');
@@ -579,6 +600,40 @@
     /* --- Year --- */
     document.getElementById('year').textContent = new Date().getFullYear();
     feather.replace();
-  </script>
+        /* --- Mobile Bottom Nav & Footer Menu Active State --- */
+        const bottomLinks = document.querySelectorAll('.mobile-bottom-nav a');
+        const footerLinks = document.querySelectorAll('.mobile-footer-menu a');
+        function setActiveNav(){
+          let cur = '';
+          const sections = ['#home','#booking','#services','#gallery','#contact'];
+          sections.forEach(id => {
+            const sec = document.querySelector(id);
+            if (sec && sec.offsetTop <= window.scrollY + 100) cur = id;
+          });
+          bottomLinks.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === cur);
+          });
+          footerLinks.forEach(a => {
+            if (a.getAttribute('href').startsWith('#')) {
+              a.classList.toggle('active', a.getAttribute('href') === cur);
+            }
+          });
+        }
+        window.addEventListener('scroll', setActiveNav);
+        setActiveNav();
+/* --- Mobile Bottom Nav Active State --- */
+    const bottomLinks = document.querySelectorAll('.mobile-bottom-nav a');
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      const sections = ['#home','#booking','#services','#gallery','#contact'];
+      sections.forEach(id => {
+        const sec = document.querySelector(id);
+        if (sec && sec.offsetTop <= window.scrollY + 100) cur = id;
+      });
+      bottomLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === cur);
+      });
+    });
+</script>
 </body>
 </html>
