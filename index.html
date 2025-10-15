@@ -1,201 +1,584 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarifs - Lens & Light Studio</title>
-    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haitian Hub Studio | Frame the Culture. Capture the Vibe.</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/animejs/lib/anime.iife.min.js"></script>
+  <style>
+    /* --- CINEMA-GRADE RESET & BASE --- */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{line-height:1.6;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:#000;color:#fff;overflow-x:hidden}
+
+    /* --- VARIABLES --- */
+    :root{
+      --c-red:#e50914;
+      --c-red-dark:#b20710;
+      --c-black:#0a0a0a;
+      --c-gray:#141414;
+      --c-light:#e5e5e5;
+      --c-gold:#f5c518;
+      --ease:cubic-bezier(.25,.46,.45,.94)
+    }
+
+    /* --- TYPOGRAPHY --- */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+    .font-bebas{font-family:'Bebas Neue',cursive;letter-spacing:.05em}
+    .font-inter{font-family:'Inter',sans-serif}
+
+    /* --- UTILITIES --- */
+    .container{width:90%;max-width:1400px;margin:auto}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:.9rem 2.2rem;font-weight:600;border-radius:4px;
+      transition:all .3s var(--ease);cursor:pointer;border:none;font-size:.95rem
+    }
+    .btn-red{background:var(--c-red);color:#fff}
+    .btn-red:hover{background:var(--c-red-dark);transform:translateY(-2px)}
+    .btn-outline{border:1px solid var(--c-light);color:var(--c-light);background:transparent}
+    .btn-outline:hover{background:var(--c-light);color:var(--c-black)}
+    /* --- NAV --- */
+    nav{position:fixed;top:0;left:0;width:100%;z-index:50;background:rgba(10,10,10,.85);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:1rem 0}
+    .logo{font-size:1.4rem;font-weight:900;color:var(--c-red);letter-spacing:-.5px;white-space:nowrap}
+    .nav-links{display:flex;gap:2.2rem;align-items:center}
+    .nav-links a{color:var(--c-light);font-weight:500;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--c-red);transition:width .3s var(--ease)}
+    .nav-links a:hover::after{width:100%}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor-pointer}
+    .hamburger span{width:28px;height:2px;background:#fff;transition:.3s var(--ease)}
+    @media(max-width:768px){
+      .nav-inner{justify-content:space-between}
+      .nav-links{position:fixed;top:0;right:0;height:100vh;width:70%;max-width:280px;background:#000;display:flex;flex-direction:column;align-items:flex-start;padding:6rem 2rem 2rem;gap:1.8rem;transform:translateX(100%);transition:transform .4s var(--ease)}
+      .nav-links.open{transform:translateX(0)}
+      .hamburger{display:flex}
+    }
+    @media(max-width:480px){
+      .logo{font-size:1.2rem}
+    }
+/* --- HERO --- */
+  .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;background:#000;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('http://static.photos/studio/1920x1080/42') center/cover no-repeat;opacity:.18;filter:blur(2px)}
+  .hero-grid{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+  .hero::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,rgba(229,9,20,.15) 0%,rgba(10,10,10,.7) 40%,rgba(10,10,10,.9) 100%);z-index:1}
+  .hero-content{position:relative;z-index:2;text-align:center;max-width:1000px;padding:0 1rem}
+  .hero h1{font-size:clamp(2rem,10vw,8rem);font-weight:900;line-height:.9;text-transform:uppercase}
+  .hero h1 span:nth-child(1){color:#fff}
+  .hero h1 span:nth-child(2){color:var(--c-red)}
+  .hero p{font-size:clamp(.9rem,2vw,1.4rem);color:var(--c-light);margin:1.2rem auto 2.5rem;max-width:680px;padding:0 .5rem}
+  .hero-buttons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+  .hero-stats{display:flex;gap:1.5rem;justify-content:center;margin-top:2.5rem;font-size:.8rem;color:var(--c-light);flex-wrap:wrap}
+  .hero-stats div{text-align:center;min-width:70px}
+  .hero-stats strong{display:block;font-size:1.4rem;color:#fff;font-weight:700}
+  .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:.35rem 1rem .35rem .35rem;font-size:.8rem;font-weight:500;color:#e5e5e5;margin-bottom:1.5rem}
+  .hero-badge span:first-child{width:8px;height:8px;background:#e50914;border-radius:50%;display:inline-block;box-shadow:0 0 10px #e50914}
+  .hero h1{position:relative;display:inline-block}
+  .hero h1::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:120px;height:4px;background:var(--c-red);border-radius:2px}
+  .hero-buttons .btn{position:relative;overflow:hidden;z-index:1;font-size:.9rem;padding:.7rem 1.5rem}
+  .hero-buttons .btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,.15);border-radius:50%;transform:translate(-50%,-50%);transition:width .6s,height .6s;z-index:-1}
+  .hero-buttons .btn:hover::before{width:300px;height:300px}
+  .hero-stats strong{color:var(--c-gold)}
+  @media(max-width:480px){
+    .hero-buttons{flex-direction:column;align-items:center}
+    .hero-buttons .btn{width:100%;max-width:260px}
+  }
+/* --- SECTIONS --- */
+    section{padding:4rem 0}
+    .section-title{font-size:clamp(2rem,5vw,3rem);font-weight:900;margin-bottom:2.5rem;text-align:center;text-transform:uppercase;letter-spacing:-1px}
+    .section-title span{color:var(--c-red)}
+    @media(min-width:768px){
+      section{padding:6rem 0}
+      .section-title{margin-bottom:3.5rem}
+    }
+    /* --- ABOUT (section 2) NEW STYLE --- */
+    #about{background:linear-gradient(135deg,var(--c-black) 0%,#0d0d0d 100%);position:relative}
+    #about::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:url('http://static.photos/textures/1920x1080/7') center/cover no-repeat;opacity:.04;pointer-events:none}
+    #about .grid{gap:2rem;align-items:center}
+    #about img{border-radius:12px;box-shadow:0 25px 50px -12px rgba(229,9,20,.25);transition:transform .4s var(--ease),box-shadow .4s var(--ease);width:100%}
+    #about img:hover{transform:scale(1.02) rotate(-1deg);box-shadow:0 30px 60px -12px rgba(229,9,20,.35)}
+    #about .relative .absolute{-z-10;animation:pulse 4s infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:.4}50%{transform:scale(1.05);opacity:.6}}
+    #about p{position:relative;padding-left:1rem;border-left:2px solid var(--c-red);margin-bottom:1.5rem;font-size:1rem;color:#e5e5e5;line-height:1.7}
+    #about p::before{content:'“';position:absolute;left:-.6rem;top:-.4rem;font-size:2rem;color:var(--c-red);opacity:.5}
+    #about .btn-outline{margin-top:2rem;border-color:var(--c-red);color:var(--c-red)}
+    #about .btn-outline:hover{background:var(--c-red);color:#fff}
+    @media(min-width:768px){
+      #about .grid{gap:4rem}
+      #about p{font-size:1.05rem;line-height:1.8}
+    }
+    /* --- GALLERY --- */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.75rem}
+    .gallery a{overflow:hidden;border-radius:6px;position:relative;display:block;background:#000}
+    .gallery img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease),opacity .5s var(--ease)}
+    .gallery a:hover img{transform:scale(1.08);opacity:.75}
+    .gallery a::after{content:'＋';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);font-size:2rem;color:#fff;opacity:0;transition:opacity .3s var(--ease),transform .3s var(--ease)}
+    .gallery a:hover::after{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    @media(min-width:768px){
+      .gallery{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+    }
+    /* --- SERVICES --- */
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+    .service-card{background:var(--c-gray);border-radius:6px;padding:1.5rem;position:relative;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+    .service-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(229,9,20,.25)}
+    .service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:var(--c-red);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+    .service-card:hover::before{transform:scaleX(1)}
+    .service-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:var(--c-red);border-radius:50%;margin-bottom:1.2rem}
+    .service-icon svg{width:22px;height:22px;color:#fff}
+    @media(min-width:768px){
+      .services{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem}
+      .service-card{padding:2.2rem}
+    }
+    /* --- PRICING --- */
+    .pricing{display:grid;grid-template-columns:1fr;gap:1.5rem}
+    .price-card{background:var(--c-gray);border-radius:6px;padding:1.5rem;position:relative;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+    .price-card.featured{border:2px solid var(--c-gold);transform:scale(1.02)}
+    .price-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(245,197,24,.15)}
+    .price-card h3{font-size:1.2rem;font-weight:700;margin-bottom:.5rem}
+    .price-card .price{font-size:2.2rem;font-weight:900;color:var(--c-gold);margin:.5rem 0}
+    .price-card ul{list-style:none;margin:1.5rem 0 2rem;font-size:.9rem;color:var(--c-light)}
+    .price-card ul li{margin:.4rem 0;display:flex;align-items:center;gap:.6rem}
+    .price-card ul li::before{content:'✓';color:var(--c-gold);font-weight:700}
+    @media(min-width:768px){
+      .pricing{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+      .price-card{padding:2.5rem 2rem}
+      .price-card h3{font-size:1.4rem}
+      .price-card .price{font-size:2.8rem}
+      .price-card.featured{transform:scale(1.05)}
+    }
+    /* --- BOOKING --- */
+    .booking-form{display:grid;grid-template-columns:1fr;gap:1rem}
+    .booking-form input,.booking-form select,.booking-form textarea{width:100%;padding:.9rem 1rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:#fff;font-size:.95rem;transition:border-color .3s var(--ease)}
+    .booking-form input:focus,.booking-form select:focus,.booking-form textarea:focus{border-color:var(--c-red);outline:none}
+    .booking-form textarea{resize:vertical;min-height:120px}
+    .booking-form .full{grid-column:1/-1}
+    @media(min-width:600px){
+      .booking-form{grid-template-columns:1fr 1fr;gap:1.2rem}
+      .booking-form textarea{min-height:140px}
+    }
+/* --- TESTIMONIALS --- */
+    .testimonials{max-width:900px;margin:auto;position:relative}
+    .testimonial-card{background:var(--c-gray);padding:3rem 2rem;border-radius:6px;text-align:center;opacity:0;position:absolute;width:100%;transition:opacity .6s var(--ease)}
+    .testimonial-card.active{opacity:1;position:relative}
+    .testimonial-card p{font-style:italic;margin-bottom:1.5rem;font-size:1.1rem;color:var(--c-light)}
+    .testimonial-card h4{font-weight:700;color:#fff}
+    .testimonial-dots{display:flex;gap:.6rem;justify-content:center;margin-top:2rem}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:background .3s var(--ease)}
+    .dot.active{background:var(--c-red)}
+
+    /* --- CONTACT --- */
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+    .contact-info{display:flex;flex-direction:column;gap:2rem}
+    .contact-item{display:flex;gap:1rem}
+    .contact-icon{width:44px;height:44px;background:var(--c-red);border-radius:50%;display:flex;align-items:center;justify-center;flex-shrink:0}
+    .contact-icon svg{width:20px;height:20px;color:#fff}
+    .map-container iframe{width:100%;height:400px;border-radius:6px;border:0}
+    @media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+    /* --- CONTACT --- */
+    .contact-grid{display:grid;grid-template-columns:1fr;gap:2rem;align-items:start}
+    .contact-info{display:flex;flex-direction:column;gap:1.5rem}
+    .contact-item{display:flex;gap:1rem}
+    .contact-icon{width:44px;height:44px;background:var(--c-red);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .contact-icon svg{width:20px;height:20px;color:#fff}
+    .map-container iframe{width:100%;height:280px;border-radius:6px;border:0}
+    @media(min-width:900px){
+      .contact-grid{grid-template-columns:1fr 1fr;gap:3rem}
+      .contact-info{gap:2rem}
+      .map-container iframe{height:320px}
+    }
+ /* --- FOOTER --- */
+    footer{padding:2rem 0;background:var(--c-black);color:var(--c-light);font-size:.85rem}
+    @media(min-width:768px){
+      footer{padding:2.5rem 0;font-size:.9rem}
+    }
+  /* --- ANIMATIONS --- */
+    .fade-up{opacity:0;transform:translateY(30px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+    .fade-up.visible{opacity:1;transform:translateY(0)}
+</style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="top-0 left-0 w-full bg-white/90 backdrop-blur-md shadow-sm sticky z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <i data-feather="camera" class="h-8 w-8 text-primary-600 mr-2"></i>
-                    <span class="text-xl font-bold text-gray-900">Lens & Light Studio</span>
-                </div>
-                <div class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-700 hover:text-primary-600 transition-colors">Accueil</a>
-                    <a href="#services" class="text-gray-700 hover:text-primary-600 transition-colors">Services</a>
-                    <a href="rates.html" class="text-primary-600 font-semibold">Tarifs</a>
-                    <a href="index.html#gallery" class="text-gray-700 hover:text-primary-600 transition-colors">Galerie</a>
-                    <a href="index.html#contact" class="text-gray-700 hover:text-primary-600 transition-colors">Contact</a>
-                </div>
-                <button id="mobile-menu-btn" class="md:hidden">
-                    <i data-feather="menu" class="h-6 w-6 text-gray-700"></i>
-                </button>
-            </div>
+<body class="bg-deep-black">
+  <!-- NAVIGATION -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <div class="logo">Haitian Hub Studio</div>
+        <div class="nav-links" id="navLinks">
+          <a href="#about">About</a>
+          <a href="#specialties">Specialties</a>
+          <a href="#gallery">Gallery</a>
+          <a href="#services">Services</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#team">Team</a>
+          <a href="#booking">Book</a>
+<a href="#contact">Contact</a>
+</div>
+<div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
         </div>
-    <!-- Mobile menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
-        <div class="px-4 py-2 space-y-2">
-            <a href="index.html" class="block py-2 text-gray-700 hover:text-primary-600">Accueil</a>
-            <a href="#services" class="block py-2 text-gray-700 hover:text-primary-600">Services</a>
-            <a href="rates.html" class="block py-2 text-primary-600 font-semibold">Tarifs</a>
-            <a href="#gallery" class="block py-2 text-gray-700 hover:text-primary-600">Galerie</a>
-            <a href="#contact" class="block py-2 text-gray-700 hover:text-primary-600">Contact</a>
-        </div>
+      </div>
     </div>
-</nav>
-
-    <!-- Hero -->
-    <section class="bg-gradient-to-br from-blue-50 to-teal-50 py-16">
-        <div class="max-w-4xl mx-auto text-center px-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">Nos Tarifs</h1>
-            <p class="text-xl text-gray-700">Des formules claires et transparentes adaptées à chaque besoin.</p>
+  </nav>
+  <!-- HERO -->
+  <section class="hero">
+<div class="hero-grid"></div>
+    <div class="container">
+      <div class="hero-content fade-up">
+        <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1 mb-6">
+          <span class="w-2 h-2 bg-red-600 rounded-full animate-ping"></span>
+          <span class="text-sm text-neutral-200">Now Booking 2024 Sessions</span>
         </div>
-    </section>
-
-    <!-- Pricing Cards -->
-    <section class="py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Basic -->
-                <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Basic</h3>
-                    <p class="text-gray-600 mb-6">Idéal pour des portraits simples ou des photos corporate rapides.</p>
-                    <div class="text-4xl font-extrabold text-primary-600 mb-1">250 €</div>
-                    <p class="text-sm text-gray-500 mb-6">Séance 1 h – 20 photos retouchées</p>
-                    <ul class="space-y-3 mb-8 text-gray-700">
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Studio ou extérieur</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>1 changement de tenue</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Galeries en ligne HD</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Livraison sous 7 jours</li>
-                    </ul>
-                    <button class="mt-auto bg-primary-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-primary-700 transition">Choisir</button>
-                </div>
-
-                <!-- Standard -->
-                <div class="bg-white rounded-2xl shadow-xl p-8 flex flex-col border-4 border-secondary-400 transform scale-105">
-                    <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary-500 text-white px-4 py-1 rounded-full text-sm font-semibold">Populaire</div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Standard</h3>
-                    <p class="text-gray-600 mb-6">Parfait pour une séance couple, famille ou grossesse complète.</p>
-                    <div class="text-4xl font-extrabold text-secondary-600 mb-1">450 €</div>
-                    <p class="text-sm text-gray-500 mb-6">Séance 2 h – 40 photos retouchées</p>
-                    <ul class="space-y-3 mb-8 text-gray-700">
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Studio + extérieur</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>2-3 changements de tenue</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Galeries en ligne HD</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>30 x 40 cm imprimé offert</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Livraison sous 7 jours</li>
-                    </ul>
-                    <button class="mt-auto bg-secondary-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-secondary-600 transition">Choisir</button>
-                </div>
-
-                <!-- Premium -->
-                <div class="bg-white rounded-2xl shadow-lg p-8 flex flex-col">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Premium</h3>
-                    <p class="text-gray-600 mb-6">Pour les mariages et événements : couverture complète + vidéo.</p>
-                    <div class="text-4xl font-extrabold text-primary-600 mb-1">sur devis</div>
-                    <p class="text-sm text-gray-500 mb-6">Journée complète – photos + vidéo 4K</p>
-                    <ul class="space-y-3 mb-8 text-gray-700">
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Préparatifs à la fête</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>2 photographes + 1 vidéaste</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Album 30 x 30 cm</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Film 4K (3-5 min)</li>
-                        <li class="flex items-center"><i data-feather="check" class="h-5 w-5 text-teal-500 mr-3"></i>Galerie privée & USB</li>
-                    </ul>
-                    <button class="mt-auto bg-primary-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-primary-700 transition">Nous contacter</button>
-                </div>
-            </div>
+        <h1 class="font-bebas">
+          <span>Frame the Culture.</span>
+          <span>Capture the Vibe.</span>
+        </h1>
+<p>Experience Port-au-Prince’s premier cinematic photo studio—where every shot feels like a motion-picture still.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-red">Book Your Session</button>
+          <button class="btn btn-outline">Watch Reel</button>
         </div>
-    </section>
-
-    <!-- Extras -->
-    <section class="py-16 bg-gray-100">
-        <div class="max-w-5xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-10">Options & Suppléments</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow flex justify-between items-center">
-                    <span class="text-gray-800">Heure supplémentaire</span>
-                    <span class="font-bold text-primary-600">150 €</span>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow flex justify-between items-center">
-                    <span class="text-gray-800">Impression 50 x 70 cm</span>
-                    <span class="font-bold text-primary-600">80 €</span>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow flex justify-between items-center">
-                    <span class="text-gray-800">Album 30 x 30 cm (20 pages)</span>
-                    <span class="font-bold text-primary-600">220 €</span>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow flex justify-between items-center">
-                    <span class="text-gray-800">Retouche photo avancée / image</span>
-                    <span class="font-bold text-primary-600">25 €</span>
-                </div>
-            </div>
+        <div class="hero-stats">
+          <div><strong>500+</strong>Sessions</div>
+          <div><strong>50+</strong>Events</div>
+          <div><strong>5★</strong>Reviews</div>
         </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="py-16 bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
-        <div class="max-w-3xl mx-auto text-center px-4">
-            <h3 class="text-3xl font-bold mb-4">Des questions ou un projet spécial ?</h3>
-            <p class="text-lg mb-8">Contactez-nous pour un devis personnalisé en 24 h.</p>
-            <a href="index.html#contact" class="inline-block bg-white text-primary-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition">Demander un devis</a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <i data-feather="camera" class="h-8 w-8 text-primary-400 mr-2"></i>
-                        <span class="text-xl font-bold">Lens & Light Studio</span>
-                    </div>
-                    <p class="text-gray-400">Capturons vos moments les plus précieux avec passion et créativité.</p>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Services</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Portrait</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Mariage</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Corporate</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Événementiel</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Liens rapides</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="index.html" class="hover:text-white transition-colors">Accueil</a></li>
-                        <li><a href="rates.html" class="hover:text-white transition-colors">Tarifs</a></li>
-                        <li><a href="index.html#gallery" class="hover:text-white transition-colors">Galerie</a></li>
-                        <li><a href="index.html#contact" class="hover:text-white transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="font-semibold mb-4">Suivez-nous</h3>
-                    <div class="flex space-x-4">
-                        <a href="#" class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
-                            <i data-feather="instagram" class="h-5 w-5"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
-                            <i data-feather="facebook" class="h-5 w-5"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 w-10 h-10 rounded-full flex items-center justify-center hover:bg-primary-600 transition-colors">
-                            <i data-feather="twitter" class="h-5 w-5"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Lens & Light Studio. Tous droits réservés.</p>
-            </div>
-        </div>
-    </footer>
-    <!-- Mobile Bottom Nav -->
-    <div class="mobile-bottom-nav">
-        <a href="index.html" class="active"><i data-feather="home"></i>Home</a>
-        <a href="#booking"><i data-feather="calendar"></i>Book</a>
-        <a href="#gallery"><i data-feather="image"></i>Gallery</a>
-        <a href="#services"><i data-feather="briefcase"></i>Services</a>
-        <a href="#contact"><i data-feather="mail"></i>Contact</a>
+      </div>
     </div>
-    <script src="js/main.js"></script>
+  </section>
+<!-- ABOUT -->
+  <section id="about" class="fade-up">
+    <div class="container">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="section-title font-bebas">Who We <span>Are</span></h2>
+<p class="text-neutral-300 mb-6">Haitian Hub Studio is Port-au-Prince’s first cinema-grade creative space. We merge high-fashion aesthetics with Haitian soul, producing campaign-level imagery for brands, artists, and couples who demand the extraordinary.</p>
+          <p class="text-neutral-300">Our crew—directors, gaffers, colorists—treat every click like a frame in a feature film. If you’re ready to direct your own story, welcome to the hub.</p>
+        </div>
+        <div class="relative">
+          <img src="http://static.photos/people/1024x576/123" alt="Studio Team" class="rounded-md shadow-2xl w-full">
+          <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-red-600 rounded-md -z-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECIALTIES / SERVICES WE OFFER -->
+  <section id="specialties" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Specialties We <span>Offer</span></h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/holiday/640x360/25" alt="Christmas" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Christmas</h3>
+          <p class="text-neutral-300 text-sm">Festive portraits & holiday cards that sparkle.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/wedding/640x360/18" alt="Wedding" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Wedding</h3>
+          <p class="text-neutral-300 text-sm">Cinematic love stories from engagement to altar.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/people/640x360/42" alt="Portrait" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Portrait</h3>
+          <p class="text-neutral-300 text-sm">Studio & environmental portraits with star quality.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/event/640x360/7" alt="Events" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Events</h3>
+          <p class="text-neutral-300 text-sm">Capture every moment—corporate, cultural, private.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/marketing/640x360/33" alt="Marketing" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Marketing</h3>
+          <p class="text-neutral-300 text-sm">Campaign imagery that sells your brand’s story.</p>
+        </div>
+        <div class="bg-neutral-900 border border-neutral-800 rounded-lg p-6 hover:border-red-600 transition">
+          <img src="http://static.photos/studio/640x360/11" alt="Studio Rental" class="rounded-md mb-4 w-full h-32 object-cover">
+          <h3 class="text-lg font-bold text-white mb-2">Studio Rental</h3>
+          <p class="text-neutral-300 text-sm">Fully-equipped space for your own creative crew.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- GALLERY -->
+  <section id="gallery" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Shot on <span>Hub</span></h2>
+<div class="gallery">
+        <a href="http://static.photos/studio/1024x576/1"><img src="http://static.photos/studio/1024x576/1" alt="Frame 1"></a>
+        <a href="http://static.photos/people/1024x576/2"><img src="http://static.photos/people/1024x576/2" alt="Frame 2"></a>
+        <a href="http://static.photos/studio/1024x576/3"><img src="http://static.photos/studio/1024x576/3" alt="Frame 3"></a>
+        <a href="http://static.photos/people/1024x576/4"><img src="http://static.photos/people/1024x576/4" alt="Frame 4"></a>
+        <a href="http://static.photos/studio/1024x576/5"><img src="http://static.photos/studio/1024x576/5" alt="Frame 5"></a>
+        <a href="http://static.photos/people/1024x576/6"><img src="http://static.photos/people/1024x576/6" alt="Frame 6"></a>
+      </div>
+    </div>
+  </section>
+<!-- PRICING -->
+  <section id="pricing" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Production <span>Packages</span></h2>
+<div class="pricing">
+        <div class="price-card">
+          <h3>Indie</h3>
+          <div class="price">$399</div>
+          <ul>
+            <li>1 hr studio rental</li>
+            <li>20 cinematic edits</li>
+            <li>1 look/1 backdrop</li>
+            <li>Online gallery</li>
+          </ul>
+          <button class="btn btn-outline w-full">Select</button>
+        </div>
+        <div class="price-card featured">
+          <h3>Feature</h3>
+          <div class="price">$799</div>
+          <ul>
+            <li>3 hr production</li>
+            <li>60 final stills</li>
+            <li>2 looks + set changes</li>
+            <li>Color-graded gallery</li>
+            <li>MUA & stylist included</li>
+          </ul>
+          <button class="btn btn-red w-full">Select</button>
+        </div>
+        <div class="price-card">
+          <h3>Blockbuster</h3>
+          <div class="price">$1499</div>
+          <ul>
+            <li>Full-day shoot</li>
+            <li>120+ hero images</li>
+            <li>Unlimited sets</li>
+            <li>Behind-the-scenes 4K video</li>
+            <li>Same-day teaser</li>
+          </ul>
+          <button class="btn btn-outline w-full">Select</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- TEAM -->
+  <section id="team" class="fade-up bg-neutral-950">
+    <div class="container">
+      <h2 class="section-title font-bebas">Meet the <span>Crew</span></h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+        <div class="group relative bg-neutral-900 border border-neutral-800 rounded-xl p-6 overflow-hidden hover:border-red-600 transition-all duration-300">
+          <div class="absolute inset-0 bg-gradient-to-t from-red-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <img src="http://static.photos/people/400x400/21" alt="Creative Director" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-neutral-800 group-hover:border-red-500 transition">
+          <h3 class="text-lg font-bold text-white">Jean-Marc "JM" Altidort</h3>
+          <p class="text-red-500 text-sm mb-2">Creative Director / Founder</p>
+          <p class="text-neutral-300 text-sm">Ex-Netflix colorist. Turns raw frames into award-worthy stills.</p>
+          <div class="mt-4 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="instagram" class="w-4 h-4"></i></a>
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div class="group relative bg-neutral-900 border border-neutral-800 rounded-xl p-6 overflow-hidden hover:border-red-600 transition-all duration-300">
+          <div class="absolute inset-0 bg-gradient-to-t from-red-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <img src="http://static.photos/people/400x400/32" alt="Lead Photographer" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-neutral-800 group-hover:border-red-500 transition">
+          <h3 class="text-lg font-bold text-white">Sophia Désir</h3>
+          <p class="text-red-500 text-sm mb-2">Lead Photographer</p>
+          <p class="text-neutral-300 text-sm">Fashion-week veteran. Makes every click feel like a Vogue cover.</p>
+          <div class="mt-4 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="instagram" class="w-4 h-4"></i></a>
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div class="group relative bg-neutral-900 border border-neutral-800 rounded-xl p-6 overflow-hidden hover:border-red-600 transition-all duration-300">
+          <div class="absolute inset-0 bg-gradient-to-t from-red-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <img src="http://static.photos/people/400x400/43" alt="Gaffer & Lighting" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-neutral-800 group-hover:border-red-500 transition">
+          <h3 class="text-lg font-bold text-white">Ralph Bien-Aimé</h3>
+          <p class="text-red-500 text-sm mb-2">Gaffer / Lighting Designer</p>
+          <p class="text-neutral-300 text-sm">Sculpts light like clay. Your jaw drops when you see the rushes.</p>
+          <div class="mt-4 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="instagram" class="w-4 h-4"></i></a>
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div class="group relative bg-neutral-900 border border-neutral-800 rounded-xl p-6 overflow-hidden hover:border-red-600 transition-all duration-300">
+          <div class="absolute inset-0 bg-gradient-to-t from-red-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <img src="http://static.photos/people/400x400/54" alt="Motion Director" class="rounded-full w-32 h-32 mx-auto mb-4 object-cover border-4 border-neutral-800 group-hover:border-red-500 transition">
+          <h3 class="text-lg font-bold text-white">Stephanie "Steff" Étienne</h3>
+          <p class="text-red-500 text-sm mb-2">Motion Director / BTS</p>
+          <p class="text-neutral-300 text-sm">Shoots the shoot. Turns behind-the-scenes into viral gold.</p>
+          <div class="mt-4 flex justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="instagram" class="w-4 h-4"></i></a>
+            <a href="#" class="text-neutral-400 hover:text-white"><i data-feather="linkedin" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- CONTACT -->
+  <section id="contact" class="fade-up bg-neutral-950">
+    <div class="container">
+      <div class="max-w-5xl mx-auto">
+        <!-- Heading -->
+        <div class="text-center mb-12">
+          <h2 class="section-title font-bebas">Let’s Create <span>Together</span></h2>
+          <p class="text-neutral-300 max-w-2xl mx-auto">Have a project, a wild idea, or just want to say bonjou? Slide into our inbox— we answer faster than a RED camera shutter.</p>
+        </div>
+
+        <!-- Two-column layout -->
+        <div class="grid md:grid-cols-5 gap-8">
+          <!-- Left: Info & Map -->
+          <div class="md:col-span-2 flex flex-col gap-8">
+            <!-- Info cards -->
+            <div class="bg-neutral-900 border border-neutral-800 rounded-xl p-6 space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0"><i data-feather="map-pin" class="w-5 h-5 text-white"></i></div>
+                <div>
+                  <h4 class="font-bold text-white mb-1">Studio Address</h4>
+                  <p class="text-neutral-300 text-sm">#23 Rue Lamarre, Port-au-Prince, Haiti</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0"><i data-feather="phone" class="w-5 h-5 text-white"></i></div>
+                <div>
+                  <h4 class="font-bold text-white mb-1">Call or WhatsApp</h4>
+                  <a href="tel:+50937244044" class="text-neutral-300 hover:text-red-500 text-sm transition">+509 3724-4044</a>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0"><i data-feather="mail" class="w-5 h-5 text-white"></i></div>
+                <div>
+                  <h4 class="font-bold text-white mb-1">Email</h4>
+                  <a href="mailto:book@haitianhub.ht" class="text-neutral-300 hover:text-red-500 text-sm transition">book@haitianhub.ht</a>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center flex-shrink-0"><i data-feather="clock" class="w-5 h-5 text-white"></i></div>
+                <div>
+                  <h4 class="font-bold text-white mb-1">Hours</h4>
+                  <p class="text-neutral-300 text-sm">Mon – Sat 09:00 – 19:00<br>Closed Sundays</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map -->
+            <div class="map-container rounded-xl overflow-hidden border border-neutral-800">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3783.066!2d-72.285!3d18.533!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTjCsDMxJzU5LjAiTiA3MsKwMTcnMDYuMCJX!5e0!3m2!1sen!2sht!4v1234567890" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </div>
+
+          <!-- Right: Form -->
+          <div class="md:col-span-3 bg-neutral-900 border border-neutral-800 rounded-xl p-8">
+            <form id="contactForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input type="text" name="name" placeholder="Your Name" required class="bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:outline-none focus:border-red-600 transition">
+              <input type="email" name="email" placeholder="Email Address" required class="bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:outline-none focus:border-red-600 transition">
+              <input type="tel" name="phone" placeholder="Phone Number" class="bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:outline-none focus:border-red-600 transition">
+              <select name="service" required class="bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-600 transition">
+                <option value="">Select Service</option>
+                <option>Christmas Session</option>
+                <option>Wedding</option>
+                <option>Portrait</option>
+                <option>Event</option>
+                <option>Marketing Campaign</option>
+                <option>Studio Rental</option>
+              </select>
+              <textarea name="message" placeholder="Tell us about your project…" required rows="5" class="sm:col-span-2 bg-neutral-800 border border-neutral-700 rounded-lg px-4 py-3 text-white placeholder-neutral-400 focus:outline-none focus:border-red-600 transition"></textarea>
+              <button type="submit" class="sm:col-span-2 btn btn-red w-full">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- FOOTER -->
+  <footer class="bg-neutral-900 text-neutral-300 py-12">
+    <div class="container grid md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div>
+        <div class="text-2xl font-black text-red-600 mb-3">Haitian Hub Studio</div>
+        <p class="text-sm">Port-au-Prince’s first cinema-grade creative space. Frame the culture, capture the vibe.</p>
+      </div>
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-white font-semibold mb-3">Quick Links</h4>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#about" class="hover:text-red-500 transition">About</a></li>
+          <li><a href="#specialties" class="hover:text-red-500 transition">Specialties</a></li>
+          <li><a href="#gallery" class="hover:text-red-500 transition">Gallery</a></li>
+          <li><a href="#services" class="hover:text-red-500 transition">Services</a></li>
+          <li><a href="#pricing" class="hover:text-red-500 transition">Pricing</a></li>
+        </ul>
+      </div>
+      <!-- Contact -->
+      <div>
+        <h4 class="text-white font-semibold mb-3">Contact</h4>
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-start gap-2"><i data-feather="map-pin" class="w-4 mt-1"></i><span>#23 Rue Lamarre, P-au-P</span></li>
+          <li class="flex items-start gap-2"><i data-feather="phone" class="w-4 mt-1"></i><a href="tel:+50937244044" class="hover:text-red-500 transition">+509 3724-4044</a></li>
+          <li class="flex items-start gap-2"><i data-feather="mail" class="w-4 mt-1"></i><a href="mailto:book@haitianhub.ht" class="hover:text-red-500 transition">book@haitianhub.ht</a></li>
+        </ul>
+      </div>
+      <!-- Social -->
+      <div>
+        <h4 class="text-white font-semibold mb-3">Follow Us</h4>
+        <div class="flex gap-4">
+          <a href="#" aria-label="Instagram" class="w-9 h-9 grid place-items-center bg-neutral-800 rounded-full hover:bg-red-600 transition"><i data-feather="instagram" class="w-4 h-4"></i></a>
+          <a href="#" aria-label="Facebook" class="w-9 h-9 grid place-items-center bg-neutral-800 rounded-full hover:bg-red-600 transition"><i data-feather="facebook" class="w-4 h-4"></i></a>
+          <a href="#" aria-label="Twitter" class="w-9 h-9 grid place-items-center bg-neutral-800 rounded-full hover:bg-red-600 transition"><i data-feather="twitter" class="w-4 h-4"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-neutral-800 mt-10 pt-6 text-center text-xs text-neutral-500">
+      © <span id="year"></span> Haitian Hub Studio. All rights reserved.
+    </div>
+  </footer>
+<script>
+    /* --- Mobile Nav --- */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.onclick = () => navLinks.classList.toggle('open');
+
+    /* --- Testimonial Carousel --- */
+    const cards = document.querySelectorAll('.testimonial-card');
+    const dots = document.querySelectorAll('.dot');
+    let idx = 0;
+    function show(n){
+      cards.forEach(c=>c.classList.remove('active'));
+      dots.forEach(d=>d.classList.remove('active'));
+      cards[n].classList.add('active');
+      dots[n].classList.add('active');
+      idx = n;
+    }
+    dots.forEach((d,i)=>d.onclick=()=>show(i));
+    setInterval(()=>show((idx+1)%cards.length),5000);
+
+    /* --- Scroll Reveal --- */
+    const io = new IntersectionObserver((es)=>es.forEach(e=>e.target.classList.toggle('visible',e.isIntersecting)),{threshold:.15});
+    document.querySelectorAll('.fade-up').forEach(el=>io.observe(el));
+
+    /* --- Form --- */
+    bookingForm.onsubmit=(e)=>{
+      e.preventDefault();
+      alert('Treatment sent! Our line producer will call you within 24 hrs.');
+    };
+    /* --- Contact Form --- */
+    const contactForm = document.getElementById('contactForm');
+    contactForm.onsubmit=(e)=>{
+      e.preventDefault();
+      alert('Message sent! We’ll get back to you within 24 hours.');
+      contactForm.reset();
+    };
+/* --- Gallery Lightbox --- */
+    document.querySelectorAll('.gallery a').forEach(a=>{
+      a.onclick=(e)=>{
+        e.preventDefault();
+        const lightbox = document.createElement('div');
+        lightbox.className='fixed inset-0 bg-black/90 flex items-center justify-center z-50 cursor-pointer';
+        lightbox.innerHTML=`<img src="${a.href}" class="max-w-[90vw] max-h-[90vh] rounded">`;
+        lightbox.onclick=()=>lightbox.remove();
+        document.body.appendChild(lightbox);
+      };
+    });
+    /* --- Year --- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+    feather.replace();
+  </script>
 </body>
 </html>
