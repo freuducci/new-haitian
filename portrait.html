@@ -1165,26 +1165,41 @@
   </section>
 
   <!-- PRICING -->
-  <section class="fade-up bg-neutral-950">
-    <div class="container">
-      <h2 class="section-title font-bebas">Our <span>Pricing</span></h2>
-      <div style="margin: 2rem auto; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 40px rgba(229, 9, 20, 0.15);">
-        <iframe 
-          src="https://v0-booking-app-with-stripe-seven.vercel.app" 
-          style="width: 100%; height: 700px; border: none; display: block;"
-          title="Portrait Session Booking"
-          loading="lazy"
-        ></iframe>
-      </div>
-    </div>
-  </section>
+  <style>
+  /* Container responsif pou tout ekran */
+  #hh-container {
+    width: 100%;
+    height: 100vh;        /* pran tout wotè ekran an */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;     /* anpeche doub scroll */
+  }
+
+  /* Iframe adaptatif */
+  #hh-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow-y: auto;     /* scroll vertical natirèl */
+    overflow-x: hidden;   /* elimine scroll orizontal */
+    -webkit-overflow-scrolling: touch;  /* smooth scroll sou iPhone */
+  }
+</style>
+
+<div id="hh-container">
+  <iframe
+    id="hh-iframe"
+    src="https://haitianhubstaging.vercel.app/"
+    scrolling="yes">
+  </iframe>
+</div>
 
   <!-- BOOKING CTA -->
   <section id="booking" class="fade-up bg-neutral-900 text-center">
     <div class="container">
       <h2 class="font-bebas" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem;">Reserve Your Session</h2>
       <p style="color: #b3b3b3; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Ready to capture your best self? Book your portrait session today and experience the Haitian Hub difference.</p>
-      <a href="https://form.jotform.com/252877344282061" class="btn btn-red text-lg">
+      <a href="https://haitianhubstaging.vercel.app/" class="btn btn-red text-lg">
         <i data-feather="calendar"></i> Book Portrait Session
       </a>
     </div>
