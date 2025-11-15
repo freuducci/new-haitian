@@ -1969,37 +1969,33 @@
   </section>
 
   <!-- PRICING SECTION -->
-<div id="hh-container" style="width:100%;overflow:hidden;">
+<style>
+#hh-container {
+  position: relative;
+  width: 100%;
+}
+
+#hh-click-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  cursor: pointer;
+}
+</style>
+
+<div id="hh-container">
+  <!-- Transparent layer pou detekte klik -->
+  <div id="hh-click-layer" onclick="window.location.href='https://haitianhubstaging.vercel.app/'"></div>
+
+  <!-- Iframe lan anba a -->
   <iframe
-    id="hh-iframe"
     src="https://haitianhubstaging.vercel.app/"
-    style="width:100%;border:0;overflow:hidden;"
-    scrolling="no"
+    style="width:100%;height:900px;border:0;"
   ></iframe>
 </div>
-
-<script>
-  function adjustHHHeight() {
-    var iframe = document.getElementById("hh-iframe");
-    try {
-      let innerHeight = iframe.contentWindow.document.body.scrollHeight;
-      if (innerHeight > 0) {
-        iframe.style.height = innerHeight + "px";
-      }
-    } catch (e) {
-      // MOBILE fallback
-      if (window.innerWidth < 768) {
-        iframe.style.height = "1600px";
-      } 
-      // DESKTOP fallback
-      else {
-        iframe.style.height = "900px";
-      }
-    }
-  }
-
-  setInterval(adjustHHHeight, 800);
-</script>
 
 
 
