@@ -1164,58 +1164,40 @@
   </section>
 
   <!-- PRICING -->
-  <section id="pricing" class="fade-up bg-neutral-950">
-    <div class="container">
-      <h2 class="section-title font-bebas">Marketing <span>Packages</span></h2>
-      <div class="pricing-grid">
-        <div class="price-card">
-          <h3>Starter Campaign</h3>
-          <div class="price">$799</div>
-          <ul>
-            <li>Half-day shoot</li>
-            <li>15 hero images</li>
-            <li>1 product/setting</li>
-            <li>Basic retouching</li>
-            <li>Web & social formats</li>
-          </ul>
-          <a href="#booking" class="btn btn-outline w-full">Book Starter</a>
-        </div>
-        <div class="price-card featured">
-          <h3>Professional Campaign</h3>
-          <div class="price">$1499</div>
-          <ul>
-            <li>Full-day shoot</li>
-            <li>30 hero images</li>
-            <li>Multiple products/setups</li>
-            <li>Premium retouching</li>
-            <li>All formats + BTS</li>
-            <li>Strategy consultation</li>
-          </ul>
-          <a href="#booking" class="btn btn-red w-full">Book Professional</a>
-        </div>
-        <div class="price-card">
-          <h3>Enterprise Campaign</h3>
-          <div class="price">$2999</div>
-          <ul>
-            <li>2-day shoot</li>
-            <li>60+ hero images</li>
-            <li>Multiple locations</li>
-            <li>Full campaign suite</li>
-            <li>Video content included</li>
-            <li>Brand guidelines creation</li>
-          </ul>
-          <a href="#booking" class="btn btn-outline w-full">Book Enterprise</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <style>
+  /* Container responsif pou tout ekran */
+  #hh-container {
+    width: 100%;
+    height: 100vh;        /* pran tout wotè ekran an */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;     /* anpeche doub scroll */
+  }
 
+  /* Iframe adaptatif */
+  #hh-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow-y: auto;     /* scroll vertical natirèl */
+    overflow-x: hidden;   /* elimine scroll orizontal */
+    -webkit-overflow-scrolling: touch;  /* smooth scroll sou iPhone */
+  }
+</style>
+
+<div id="hh-container">
+  <iframe
+    id="hh-iframe"
+    src="https://haitianhubstaging.vercel.app/"
+    scrolling="yes">
+  </iframe>
+</div>
   <!-- BOOKING CTA -->
   <section id="booking" class="fade-up bg-neutral-900 text-center">
     <div class="container">
       <h2 class="font-bebas" style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem;">Launch Your Campaign</h2>
       <p style="color: #b3b3b3; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">Ready to elevate your brand with cinematic visuals? Book your marketing campaign shoot today.</p>
-      <a href="https://form.jotform.com/252877344282061" class="btn btn-red text-lg">
+      <a href="https://haitianhubstaging.vercel.app/" class="btn btn-red text-lg">
         <i data-feather="calendar"></i> Book Campaign Shoot
       </a>
     </div>
