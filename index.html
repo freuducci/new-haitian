@@ -1970,32 +1970,34 @@
 
   <!-- PRICING SECTION -->
 <style>
-#hh-container {
-  position: relative;
-  width: 100%;
-}
+  /* Container responsif pou tout ekran */
+  #hh-container {
+    width: 100%;
+    height: 100vh;        /* pran tout wotè ekran an */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;     /* anpeche doub scroll */
+  }
 
-#hh-click-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  cursor: pointer;
-}
+  /* Iframe adaptatif */
+  #hh-iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow-y: auto;     /* scroll vertical natirèl */
+    overflow-x: hidden;   /* elimine scroll orizontal */
+    -webkit-overflow-scrolling: touch;  /* smooth scroll sou iPhone */
+  }
 </style>
 
 <div id="hh-container">
-  <!-- Transparent layer pou detekte klik -->
-  <div id="hh-click-layer" onclick="window.location.href='https://haitianhubstaging.vercel.app/'"></div>
-
-  <!-- Iframe lan anba a -->
   <iframe
+    id="hh-iframe"
     src="https://haitianhubstaging.vercel.app/"
-    style="width:100%;height:900px;border:0;"
-  ></iframe>
+    scrolling="yes">
+  </iframe>
 </div>
+
 
 
 
