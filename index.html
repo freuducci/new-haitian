@@ -1969,26 +1969,32 @@
   </section>
 
   <!-- PRICING SECTION -->
- <div id="embed-container" style="
-  width:100%;
-  border:0;
-  overflow:hidden;
-">
+<div id="hh-container" style="width:100%;overflow:hidden;">
   <iframe
-    id="embed-iframe"
+    id="hh-iframe"
     src="https://haitianhubstaging.vercel.app/"
-    style="width:100%;border:0;"
+    style="width:100%;border:0;overflow:hidden;"
     scrolling="no"
   ></iframe>
 </div>
 
 <script>
-  // Auto adjust height pou iframe lan
-  window.addEventListener("message", function (event) {
-    if (event.data.height) {
-      document.getElementById("embed-iframe").style.height = event.data.height + "px";
+  // Try to auto-fit height repeatedly (safe even if cross-domain)
+  function adjustHHHeight() {
+    var iframe = document.getElementById("hh-iframe");
+    try {
+      var innerHeight = iframe.contentWindow.document.body.scrollHeight;
+      if (innerHeight > 0) {
+        iframe.style.height = innerHeight + "px";
+      }
+    } catch (e) {
+      // if cross-domain blocks, fallback to a fixed very large height
+      iframe.style.height = "5000px";
     }
-  });
+  }
+
+  // Check often because pages load dynamically
+  setInterval(adjustHHHeight, 500);
 </script>
 
 
